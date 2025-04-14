@@ -3,6 +3,8 @@ import pandas as pd
 import numpy as np
 import joblib
 import os
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 # Streamlit UI config
 st.set_page_config(page_title="Sensor Attack Detection", layout="centered")
@@ -65,7 +67,15 @@ def show_predictions(original_data, processed_data):
     st.error(f"🚨 Attack: {attack_count}")
     st.info(f"🔢 Total Records: {total}")
 
-    # Show detailed table
+    # 📊 Bar Chart: Attack vs Normal Distribution
+    st.write("### 📊 Attack vs Normal Distribution")
+    fig, ax = plt.subplots()
+    sns.barplot(x=["Normal", "Attack"], y=[normal_count, attack_count], palette=["green", "red"], ax=ax)
+    ax.set_ylabel("Count")
+    ax.set_title("Prediction Distribution")
+    st.pyplot(fig)
+
+    # Show detailed prediction table
     st.write("### Predictions (1 = Attack, 0 = Normal):")
     st.dataframe(original_data)
 
